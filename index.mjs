@@ -61,7 +61,6 @@ io.on('connection',(socket)=>{
         }
     });
 
-
     socket.on('partyInfo',(mensaje)=>{
         var npartida = AdministradorPartidas.findPartida(mensaje.roomName);
         // Verificar si se encontró la partida antes de llamar a nuevoJuagador
