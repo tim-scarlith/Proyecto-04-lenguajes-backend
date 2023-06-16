@@ -239,7 +239,7 @@ class Tablero {
         if(recorrerPunto.length >= 3){
             //funcion de cambiar color
             for(let i=0; i<recorrerPunto.length; i++){
-                var numero = recorrerPunto[numero];
+                var numero = recorrerPunto[i];
                 this.cambiarColor(numero);
             }
             //agregar punto al jugador en turno
@@ -251,26 +251,27 @@ class Tablero {
     //Funcion encargada de evaluar si el jugador en turno adquiro un punto 
     recorrerPunto(actual){
         //console.log("ENtrando a la funcion de evaluar punto y asignar puntos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        var listaRes = [];
+        // var listaRes = [];
         var listaTotal = [];
+        listaTotal.push(actual);
         //if(this.obtenerColor(9+actual) == this.obtenerColor(actual) & !this.restriccionesAbajo.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoAbajo(listaRes, actual));           
+            listaTotal = listaTotal.concat(this.recorrerPuntoAbajo([], actual));           
         //}if(this.obtenerColor(actual-9) == this.obtenerColor(actual) & !this.restriccionesArriba.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoArriba(listaRes, actual));        
+            listaTotal = listaTotal.concat(this.recorrerPuntoArriba([], actual));        
         //}if(this.obtenerColor(actual-1) == this.obtenerColor(actual) & !this.restriccionesIZQ.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoIZQ(listaRes, actual));         
+            listaTotal = listaTotal.concat(this.recorrerPuntoIZQ([], actual));         
         //}if(this.obtenerColor(actual+1) == this.obtenerColor(actual) & !this.restriccionesDER.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoDER(listaRes, actual));
+            listaTotal = listaTotal.concat(this.recorrerPuntoDER([], actual));
         //}if(this.obtenerColor(actual-10) == this.obtenerColor(actual) & !this.restriccionesDigSupIZQ.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoDigSupIZQ(listaRes, actual));    //obtenerColornull       
+            listaTotal = listaTotal.concat(this.recorrerPuntoDigSupIZQ([], actual));    //obtenerColornull       
         //}if(this.obtenerColor(actual-8) == this.obtenerColor(actual) & !this.restriccionesDigSupDER.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoDigSupDER(listaRes, actual));       
+            listaTotal = listaTotal.concat(this.recorrerPuntoDigSupDER([], actual));       
         //}if(this.obtenerColor(actual+10) == this.obtenerColor(actual) & !this.restriccionesDigInfDER.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoDigInfDER(listaRes, actual));    
+            listaTotal = listaTotal.concat(this.recorrerPuntoDigInfDER([], actual));    
         //}if(this.obtenerColor(actual+8) == this.obtenerColor(actual) & !this.restriccionesDigInfIZQ.includes(actual)){
-            listaTotal.concat(this.recorrerPuntoDigInfIZQ(listaRes, actual));           
+            listaTotal = listaTotal.concat(this.recorrerPuntoDigInfIZQ([], actual));           
         //}
-        console.log("Actual en rrecorrero",actual);
+        console.log("Actual en rrecorrero lista total",listaTotal);
         return listaTotal;
     }
 
@@ -286,6 +287,7 @@ class Tablero {
             listaRes.push(actual+9);
             this.recorrerPuntoAbajo(listaRes,9+actual);        
         }
+        console.log("movimientos arriba",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia abajo
@@ -295,6 +297,7 @@ class Tablero {
             //listaRes+=[actual-9];
             this.recorrerPuntoArriba(listaRes,actual-9);               
         }
+        console.log("movimientos abajo",listaRes);
         return listaRes;
     } 
     //Funcion encargada de evaluar si el movimiento hacia izq
@@ -303,6 +306,7 @@ class Tablero {
             listaRes.push(actual-1);
             this.recorrerPuntoIZQ(listaRes, actual-1);  
         }
+        console.log("movimientos IZQ",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia der
@@ -311,6 +315,7 @@ class Tablero {
             listaRes.push(actual+1);
             this.recorrerPuntoDER(listaRes, actual+1);
         }
+        console.log("movimientos DER",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia  dig sup izq
@@ -319,6 +324,7 @@ class Tablero {
             listaRes.push(actual-10);
             this.recorrerPuntoDigSupIZQ(listaRes,actual-10);      
         }
+        console.log("movimientos DIG SUP IZQ",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia diag sup der
@@ -327,6 +333,7 @@ class Tablero {
             listaRes.push(actual-8);
             this.recorrerPuntoDigSupDER(listaRes,actual-8);
         }
+        console.log("movimientos DIG SUP DER",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia diag inf der
@@ -335,6 +342,7 @@ class Tablero {
             listaRes.push(actual+10);
             this.recorrerPuntoDigInfDER(listaRes, actual+10);              
         }
+        console.log("movimientos DIG INF DER",listaRes);
         return listaRes;
     }
     //Funcion encargada de evaluar si el movimiento hacia diag inf izq
@@ -343,6 +351,7 @@ class Tablero {
             listaRes.push(actual+8);
             this.recorrerPuntoDigInfIZQ(listaRes, actual+8);  
         }
+        console.log("movimientos DIG INF IZQ",listaRes);
         return listaRes;
     }
   }
