@@ -100,6 +100,18 @@ io.on('connection',(socket)=>{
       socket.emit('realizarMovimiento',{value:expressTablero,data:Tablero.matriz,jugadores:Tablero.jugadores});//El nuemero es la posicion y el nombre es el nombre del jugador en turno
     
     });
+
+    socket.on('finishGame',(mensaje)=>{
+      var jugador1 = mensaje.jugadores[0];
+      var jugador2 = mensaje.jugadores[1];
+      var npartida = AdministradorPartidas.findPartida(mensaje.roomName);
+      if(jugador1.puntos >= jugador2.punto){
+        var datos = { nombre: jugador1.nombre, puntaje: jugador1.puntos, idPartida: npartida.nombre};
+      }else{
+        var datos = { nombre: jugador2.nombre, puntaje: jugador2.puntos, idPartida: npartida.nombre};
+      }
+      ManejadorArchivos.agregarObjeto('C:/Users/Usuario/Desktop/Proyecto 04/model/historial.json',datos);
+    });
     
     // socket.on('unionParty', (mensaje) => {
     //     console.log("Uniendose a la partida...");//{roomName, name}

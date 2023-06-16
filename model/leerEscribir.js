@@ -12,6 +12,7 @@ class ManejadorArchivos {
     });
   }
 
+  
   leerJSON(nombreArchivo) {
     try {
       const contenido = fs.readFileSync(nombreArchivo, 'utf8');
@@ -32,6 +33,41 @@ class ManejadorArchivos {
     }
     return false;
   }
+
+  agregarObjeto(nombreArchivo, nuevoObjeto) {
+    // Leer el contenido actual del archivo
+    fs.readFile(nombreArchivo, 'utf-8', (error, contenidoActual) => {
+      if (error) {
+        console.error('Error al leer el archivo:', error);
+        //return;
+      }
+  
+      let datos = [];
+      try {
+        // Parsear el contenido del archivo a un objeto JavaScript
+        datos = JSON.parse(contenidoActual);
+      } catch (parseError) {
+        console.error('Error al parsear el contenido del archivo:', parseError);
+        //return;
+      }
+  
+      // Añadir el nuevo objeto al array de objetos
+      datos.push(nuevoObjeto);
+  
+      // Convertir los datos actualizados a JSON
+      const contenidoActualizado = JSON.stringify(datos);
+  
+      // Escribir los datos actualizados en el archivo
+      fs.writeFile(nombreArchivo, contenidoActualizado, (error) => {
+        if (error) {
+          console.error('Error al escribir en el archivo:', error);
+        } else {
+          console.log('Nuevo objeto agregado exitosamente.');
+        }
+      });
+    });
+  }
+  
 }
 
 
