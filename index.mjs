@@ -9,8 +9,10 @@ import { default as moduloleerEscribir } from './model/leerEscribir.js';
 import { default as administradorPartidas } from './model/administradorPartidas.js';
 import { default as jugador } from './model/jugador.js';
 import { default as partida } from './model/partida.js';
+import { default as tablero } from './model/tablero.js';
 import { Socket } from 'dgram';
 
+const Tablero = new tablero();
 const ManejadorArchivos = new moduloleerEscribir();
 const AdministradorPartidas = new administradorPartidas();
 const app = express();
@@ -52,6 +54,8 @@ io.on('connection',(socket)=>{
           if (npartida) {
             npartida.nuevoJuagador(Juagador);
             console.log("Usuario " + socket.id + " se ha unido a la sala " + mensaje.roomName);
+            Tablero.generarMatrizAleatoria();//Se genera la matriz de elementos aleatorios.
+            Tablero.jugadores = npartida.getListaJugadores();
             io.sockets.emit('unionParty', true);
           } else {
             console.log("No se encontró la partida");
@@ -68,9 +72,28 @@ io.on('connection',(socket)=>{
         if (npartida) {
           //npartida.getListaJugadores();
           console.log("Informaicon de la partida enviada...");
+          //Tablero.jugadores = npartida.getListaJugadores();// Se ingresan los jugadores de la partida a los que les corresponde jugar el tablero actual
+          
           socket.emit('partyInfo', npartida.getListaJugadores());
+          
         }
     });
+
+    socket.on('sendTablero',(mensaje)=>{
+      
+      socket.emit('sendTablero',Tablero.matriz);
+    });
+
+    socket.on('captarMovimiento',(mensaje)=>{
+      socket.emit('captarMovimiento',Tablero.verificarJugadorBloquearCampo(mensaje.numero,mensaje.nombre));
+    });
+
+    socket.on('realizarMovimiento',(mensaje)=>{
+      socket.broadcast.emit('realizarMovimiento',{value:Tablero.realizarMovimiento(mensaje.numero,mensaje.nombre),data:Tablero.matriz});
+      socket.emit('realizarMovimiento',{value:Tablero.realizarMovimiento(mensaje.numero,mensaje.nombre),data:Tablero.matriz});//El nuemero es la posicion y el nombre es el nombre del jugador en turno
+    
+    });
+    
     // socket.on('unionParty', (mensaje) => {
     //     console.log("Uniendose a la partida...");//{roomName, name}
     //     if (AdministradorPartidas.existPartida(mensaje.roomName)) {
