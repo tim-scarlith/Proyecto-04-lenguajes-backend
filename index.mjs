@@ -85,7 +85,10 @@ io.on('connection',(socket)=>{
     });
 
     socket.on('captarMovimiento',(mensaje)=>{
-      socket.emit('captarMovimiento',Tablero.verificarJugadorBloquearCampo(mensaje.numero,mensaje.nombre));
+      var resutaldoVerificar = Tablero.verificarJugadorBloquearCampo(mensaje.numero,mensaje.nombre);
+      var matrizActual = Tablero.matriz
+      socket.broadcast.emit('captarMovimiento',{value:resutaldoVerificar, data:matrizActual});
+      socket.emit('captarMovimiento',{value:resutaldoVerificar, data:matrizActual});
     });
 
     socket.on('realizarMovimiento',(mensaje)=>{

@@ -210,6 +210,7 @@ class Tablero {
         for (let i = 0; i < this.filas; i++) {
           for (let j = 0; j < this.columnas; j++) {
             if (contador == numero) {   
+                console.log("El color es: ",this.matriz[i][j][0]);
                 return this.matriz[i][j][0];
             }
             contador++;
@@ -219,6 +220,7 @@ class Tablero {
     }
     //funcion encargada de setear colres aleatorios en los espacios de la lista.
     cambiarColor(numero){
+        console.log("Numero del elemento de turno", numero);
         let contador = 0;
         for (let i = 0; i < this.filas; i++) {
           for (let j = 0; j < this.columnas; j++) {
@@ -233,6 +235,7 @@ class Tablero {
     evaluarPunto(nombre,actual){
         var jugadorActual = this.findJugador(nombre);
         var recorrerPunto = this.recorrerPunto(actual);
+        console.log("Largo de los elementos: ",recorrerPunto.length);
         if(recorrerPunto.length >= 3){
             //funcion de cambiar color
             for(let i=0; i<recorrerPunto.length; i++){
@@ -251,22 +254,23 @@ class Tablero {
         var listaRes = [];
         var listaTotal = [];
         //if(this.obtenerColor(9+actual) == this.obtenerColor(actual) & !this.restriccionesAbajo.includes(actual)){
-            listaTotal.push(this.recorrerPuntoAbajo(listaRes, actual));           
+            listaTotal.concat(this.recorrerPuntoAbajo(listaRes, actual));           
         //}if(this.obtenerColor(actual-9) == this.obtenerColor(actual) & !this.restriccionesArriba.includes(actual)){
-            listaTotal.push(this.recorrerPuntoArriba(listaRes, actual));        
+            listaTotal.concat(this.recorrerPuntoArriba(listaRes, actual));        
         //}if(this.obtenerColor(actual-1) == this.obtenerColor(actual) & !this.restriccionesIZQ.includes(actual)){
-            listaTotal.push(this.recorrerPuntoIZQ(listaRes, actual));         
+            listaTotal.concat(this.recorrerPuntoIZQ(listaRes, actual));         
         //}if(this.obtenerColor(actual+1) == this.obtenerColor(actual) & !this.restriccionesDER.includes(actual)){
-            listaTotal.push(this.recorrerPuntoDER(listaRes, actual));
+            listaTotal.concat(this.recorrerPuntoDER(listaRes, actual));
         //}if(this.obtenerColor(actual-10) == this.obtenerColor(actual) & !this.restriccionesDigSupIZQ.includes(actual)){
-            listaTotal.push(this.recorrerPuntoDigSupIZQ(listaRes, actual));    //obtenerColornull       
+            listaTotal.concat(this.recorrerPuntoDigSupIZQ(listaRes, actual));    //obtenerColornull       
         //}if(this.obtenerColor(actual-8) == this.obtenerColor(actual) & !this.restriccionesDigSupDER.includes(actual)){
-            listaTotal.push(this.recorrerPuntoDigSupDER(listaRes, actual));       
+            listaTotal.concat(this.recorrerPuntoDigSupDER(listaRes, actual));       
         //}if(this.obtenerColor(actual+10) == this.obtenerColor(actual) & !this.restriccionesDigInfDER.includes(actual)){
-            listaTotal.push(this.recorrerPuntoDigInfDER(listaRes, actual));    
+            listaTotal.concat(this.recorrerPuntoDigInfDER(listaRes, actual));    
         //}if(this.obtenerColor(actual+8) == this.obtenerColor(actual) & !this.restriccionesDigInfIZQ.includes(actual)){
-            listaTotal.push(this.recorrerPuntoDigInfIZQ(listaRes, actual));           
+            listaTotal.concat(this.recorrerPuntoDigInfIZQ(listaRes, actual));           
         //}
+        console.log("Actual en rrecorrero",actual);
         return listaTotal;
     }
 
