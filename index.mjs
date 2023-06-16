@@ -89,8 +89,11 @@ io.on('connection',(socket)=>{
     });
 
     socket.on('realizarMovimiento',(mensaje)=>{
-      socket.broadcast.emit('realizarMovimiento',{value:Tablero.realizarMovimiento(mensaje.numero,mensaje.nombre),data:Tablero.matriz});
-      socket.emit('realizarMovimiento',{value:Tablero.realizarMovimiento(mensaje.numero,mensaje.nombre),data:Tablero.matriz});//El nuemero es la posicion y el nombre es el nombre del jugador en turno
+      console.log("antes ",Tablero.matriz);
+      var expressTablero = Tablero.realizarMovimiento(mensaje.numero,mensaje.nombre);
+      console.log("despues ",Tablero.matriz);
+      socket.broadcast.emit('realizarMovimiento',{value:expressTablero,data:Tablero.matriz});
+      socket.emit('realizarMovimiento',{value:expressTablero,data:Tablero.matriz});//El nuemero es la posicion y el nombre es el nombre del jugador en turno
     
     });
     
