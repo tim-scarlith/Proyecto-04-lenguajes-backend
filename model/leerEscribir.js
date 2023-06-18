@@ -34,6 +34,18 @@ class ManejadorArchivos {
     return false;
   }
 
+  readJSONFile(filename) {
+    try {
+      const jsonString = fs.readFileSync(filename, 'utf8');
+      const obj = JSON.parse(jsonString);
+      return obj;
+    } catch (error) {
+      console.error('Error al leer el archivo JSON:', error);
+      return null;
+    }
+  }
+  
+
   agregarObjeto(nombreArchivo, nuevoObjeto) {
     // Leer el contenido actual del archivo
     fs.readFile(nombreArchivo, 'utf-8', (error, contenidoActual) => {

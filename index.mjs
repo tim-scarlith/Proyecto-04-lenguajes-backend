@@ -106,16 +106,23 @@ io.on('connection',(socket)=>{
       var jugador1 = mensaje.jugadores[0];
       var jugador2 = mensaje.jugadores[1];
       ///var npartida = AdministradorPartidas.findPartida(mensaje.roomName);
+      var ganador = "";
       console.log("jugadores",mensaje.jugadores);
       if(jugador1.puntos >= jugador2.puntos){
         var datos = { nombre: jugador1.nombre, puntaje: jugador1.puntos, idPartida: mensaje.roomName};
+        ganador = jugador1.nombre;
       }else{
         var datos = { nombre: jugador2.nombre, puntaje: jugador2.puntos, idPartida: mensaje.roomName};
+        ganador = jugador2.nombre;
       }
       ManejadorArchivos.agregarObjeto('C:/Users/Usuario/Desktop/Proyecto 04/model/historial.json',datos);
-      socket.broadcast.emit('finishGame',true);
+      socket.broadcast.emit('finishGame',ganador);
     });
     
+    socket.on('ranking',(mensaje)=>{
+      var resp = ManejadorArchivos.readJSONFile("C:/Users/Usuario/Desktop/Proyecto 04/model/historial.json");
+      socket.emit('ranking',resp);
+    });
     // socket.on('unionParty', (mensaje) => {
     //     console.log("Uniendose a la partida...");//{roomName, name}
     //     if (AdministradorPartidas.existPartida(mensaje.roomName)) {
