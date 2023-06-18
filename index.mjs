@@ -45,6 +45,7 @@ io.on('connection',(socket)=>{
 
     socket.on('unionParty', (mensaje) => {
         console.log("Uniendose a la partida...");
+        console.log("Room name es:",mensaje.roomName);
         if (AdministradorPartidas.existPartida(mensaje.roomName)) {
           socket.join(mensaje.roomName);
           var Juagador = new jugador(mensaje.nombre, socket.id);
@@ -67,11 +68,11 @@ io.on('connection',(socket)=>{
 
     socket.on('partyInfo',(mensaje)=>{
         var npartida = AdministradorPartidas.findPartida(mensaje.roomName);
-        console.log("Buscando resultados de informacion de la partida.....");
+        //console.log("Buscando resultados de informacion de la partida.....");
         // Verificar si se encontró la partida antes de llamar a nuevoJuagador
         if (npartida) {
           //npartida.getListaJugadores();
-          console.log("Informaicon de la partida enviada...");
+          //console.log("Informaicon de la partida enviada...");
           //Tablero.jugadores = npartida.getListaJugadores();// Se ingresan los jugadores de la partida a los que les corresponde jugar el tablero actual
           
           socket.emit('partyInfo', npartida.getListaJugadores());
@@ -105,7 +106,8 @@ io.on('connection',(socket)=>{
       var jugador1 = mensaje.jugadores[0];
       var jugador2 = mensaje.jugadores[1];
       var npartida = AdministradorPartidas.findPartida(mensaje.roomName);
-      if(jugador1.puntos >= jugador2.punto){
+      console.log("jugadores",mensaje.jugadores);
+      if(jugador1.puntos >= jugador2.puntos){
         var datos = { nombre: jugador1.nombre, puntaje: jugador1.puntos, idPartida: npartida.nombre};
       }else{
         var datos = { nombre: jugador2.nombre, puntaje: jugador2.puntos, idPartida: npartida.nombre};
